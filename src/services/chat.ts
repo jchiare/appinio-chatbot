@@ -20,7 +20,11 @@ export class Chat {
   #llm: OpenAI;
   #model: string;
 
-  constructor(systemPrompt: string, messages: string[], model = "gpt-4") {
+  constructor(
+    systemPrompt: string,
+    messages: string[],
+    model = "gpt-3.5-turbo"
+  ) {
     this.#llm = new OpenAI();
     this.#model = model;
     this.messages = this.initializeMessages(systemPrompt, messages);
@@ -55,9 +59,9 @@ export class Chat {
     // assume first message is from user
     for (let i = 0; i < messages.length; i++) {
       if (i % 2 === 0) {
-        newMessages.push(new ChatMessage(messages[i], "assistant"));
-      } else {
         newMessages.push(new ChatMessage(messages[i], "user"));
+      } else {
+        newMessages.push(new ChatMessage(messages[i], "assistant"));
       }
     }
     return [new ChatMessage(systemPrompt, "system"), ...newMessages];
